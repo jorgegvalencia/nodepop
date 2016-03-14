@@ -1,11 +1,11 @@
 'use strict';
 
+var mongoose = require('mongoose');
 // creamos la conexion con la base de datos
-let conn = require('../lib/mongooseManager');
-let mongoose = require('mongoose');
-let anunciosCollection = 'anuncios';
+var conn = require('../lib/mongooseManager');
+var anunciosCollection = 'anuncios';
 
-let anuncioSchema = mongoose.Schema({
+var anuncioSchema = mongoose.Schema({
   nombre: String,
   venta: Boolean,
   precio: Number,
@@ -13,13 +13,11 @@ let anuncioSchema = mongoose.Schema({
   tags: [String]
 });
 
-let Anuncio = mongoose.model(anunciosCollection, anunciosSchema);
-
 // Devolver la lista de anuncios
 // validar campos antes de pasarselo
 anuncioSchema.statics.list = function (cb, queryParams, pag) {
-  let query = Anuncio.find({});
-
+  var query = Anuncio.find({});
+  if( queryParams){
   // Parsear y establecer los parametros de la query
   if (queryParams.tags) {
       // filtrar por tags
@@ -41,6 +39,7 @@ anuncioSchema.statics.list = function (cb, queryParams, pag) {
   // Paginacion
   // query.skip(5*(pag-1));
   // query.limit(5);
+  }
   return query.exec(function (err, rows) {
     if (err) {
       return cb(err);
@@ -51,7 +50,7 @@ anuncioSchema.statics.list = function (cb, queryParams, pag) {
 };
 
 anuncioSchema.statics.findAd = function (cb, id) {
-  let query = Anuncio.find({ id: id });
+  var query = Anuncio.find({ id: id });
   return query.exec(function (err, rows) {
     if (err) {
       return cb(err);
@@ -60,3 +59,5 @@ anuncioSchema.statics.findAd = function (cb, id) {
     return cb(null, rows);
   });
 };
+
+var Anuncio = mongoose.model('anuncios', anuncioSchema);

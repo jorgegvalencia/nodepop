@@ -1,8 +1,10 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-let anunciosCollection = 'anuncios';
-let Anuncio = mongoose.model(anunciosCollection);
+
+var Anuncio = mongoose.model('anuncios');
 
 /**
  *  @api {get} /anuncios/ GetAdsList
@@ -37,30 +39,31 @@ let Anuncio = mongoose.model(anunciosCollection);
  *      }
  */
 
-router.get('/anuncios/:page', function (req, res) {
+router.get('/:page', function (req, res) {
   // Parsear y validar query params
   // req.query.tags
   // req.query.type
   // req.query.price
   // req.query.name
   // req.query.sort
-  let queryParams;
+  var queryParams;
   Anuncio.list(function (err, rows) {
     if (err) {
       console.log(err);
 
       // Devolver el json con el error
       res.json({ result: false, err: err });
+      console.log("Devolviendo error");
       return;
     }
 
     // Devolver el json con la lista de anuncios
     res.json({ result: true, rows: rows });
-
+    console.log("Devolviendo lista de anuncios");
     // return;
   },
 
-  queryParams,
+  null,
   req.params.page
 );
 });
@@ -98,7 +101,7 @@ router.get('/anuncios/:page', function (req, res) {
  *      }
  */
 
-router.get('/anuncios/detail/:anuncio', function (req, res) {
+router.get('/detail/:anuncio', function (req, res) {
   Anuncio.findAd(function (err, rows) {
     if (err) {
       console.log(err);
@@ -149,8 +152,8 @@ router.get('/anuncios/detail/:anuncio', function (req, res) {
  *      }
  */
 
-router.post('/anuncios', function () {
-  let anuncio = new Anuncio(req.body);
+router.post('/', function () {
+  var anuncio = new Anuncio(req.body);
   anuncio.save(function (err, created) {
     if (err) {
       res.json({ result: false, err: err });
