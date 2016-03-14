@@ -17,11 +17,12 @@ var anuncioSchema = mongoose.Schema({
 // validar campos antes de pasarselo
 anuncioSchema.statics.list = function (cb, queryParams, pag) {
   var query = Anuncio.find({});
+  var filters = {};
   if( queryParams){
   // Parsear y establecer los parametros de la query
   if (queryParams.tags) {
       // filtrar por tags
-      // tag: { $in: tags}
+      filters.tag = { $in: tags };
   } else if (queryParams.type !== null) {
       // filtrar por sale(true)|search(false)
       // type: { queryParams.type }

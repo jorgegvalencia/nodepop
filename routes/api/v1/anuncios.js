@@ -63,7 +63,7 @@ router.get('/:page', function (req, res) {
     // return;
   },
 
-  null,
+  queryParams,
   req.params.page
 );
 });
@@ -116,7 +116,6 @@ router.get('/detail/:anuncio', function (req, res) {
 
     // return;
   },
-
   req.params.anuncio
   );
 });
