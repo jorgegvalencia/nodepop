@@ -2,8 +2,13 @@
   "name": "nodepop",
   "version": "0.0.0",
   "private": true,
+  "apidoc": {
+    "title": "Nodepop API documentation",
+    "url" : "https://github.com/jorgegvalencia/nodepop"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "apidoc": "apidoc -o apidoc/"
   },
   "dependencies": {
     "basic-auth": "^1.0.3",
