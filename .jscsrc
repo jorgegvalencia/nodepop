@@ -1,6 +1,6 @@
 {
 	"preset": "airbnb",
 	"validateLineBreaks": null,
-	"excludeFiles": ["bin/", "public/, views/"],
-	"requireTrailingComma": false
+	"excludeFiles": ["bin/", "public/", "views/", "node_modules/", "apidoc/"],
+	"requireTrailingComma": false,
 }

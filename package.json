@@ -4,11 +4,12 @@
   "private": true,
   "apidoc": {
     "title": "Nodepop API documentation",
-    "url": "https://github.com/jorgegvalencia/nodepop"
+    "url": "localhost:3000/nodepop/api/v{version}"
   },
   "scripts": {
     "start": "node ./bin/www",
-    "apidoc": "apidoc -o apidoc/"
+    "apidoc": "apidoc -i ./routes/ -o apidoc/",
+    "jscs": "jscs . --fix"
   },
   "dependencies": {
     "basic-auth": "^1.0.3",
@@ -16,7 +17,7 @@
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
-    "express": "~4.13.1",
+    "express": "^4.13.4",
     "grunt": "^0.4.5",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-jscs": "^2.8.0",
