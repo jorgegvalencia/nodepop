@@ -4,7 +4,7 @@
   "private": true,
   "apidoc": {
     "title": "Nodepop API documentation",
-    "url" : "https://github.com/jorgegvalencia/nodepop"
+    "url": "https://github.com/jorgegvalencia/nodepop"
   },
   "scripts": {
     "start": "node ./bin/www",
@@ -17,6 +17,9 @@
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-jscs": "^2.8.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0"
   },
