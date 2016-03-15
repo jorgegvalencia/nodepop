@@ -26,8 +26,8 @@ var usuarioSchema = mongoose.Schema({
 });
 
 // Devolver la lista de usuarios
-usuarioSchema.statics.list = function (cb) {
-  var query = Usuario.find();
+usuarioSchema.statics.list = function (cb, filter) {
+  var query = Usuario.find(filter);
   return query.exec(function (err, rows) {
     if (err) {
       return cb(err);
