@@ -39,62 +39,64 @@ var Anuncio = mongoose.model('anuncios');
  *      }
  */
 
-router.get('/', function(req, res, next) {
-    console.log('Query-string: ',req.query);
-    // Parsear y validar query params
-    // var tags = req.query.tags.split() || '';
-    var options = {};
-    // Tipo de busqueda
-    if (req.query.sale) {
-        console.log('Venta: ',req.query.sale);
-        if (req.query.sale == "true") {
-            options.sale = true;
-        } else if (req.query.sale == "false") {
-            options.sale = false;
-        }
+router.get('/', function (req, res, next) {
+  // Parsear y validar query params
+  // var tags = req.query.tags.split() || '';
+  var options = {};
+
+  // Tipo de busqueda
+  if (req.query.sale) {
+    if (req.query.sale == 'true') {
+      options.sale = true;
+    } else if (req.query.sale == 'false') {
+      options.sale = false;
+    }
+  }
+
+  // Filtrado difuso por nombre
+  if (req.query.name) {
+    		console.log('Nombre: ', req.query.name);
+    options.name = new RegExp('^' + req.query.name, 'i');
+  }
+
+  // req.query.pricemin
+  // req.query.pricemax
+  // 	pasamos queryParam.price como objeto {pricemin pricemax}
+
+  // Ordenacion por (precio/nombre)
+  if (req.query.sort) {
+    if (req.query.sort === 'price') {
+      options.sort = 'price';
+    } else if (req.query.sort === 'name') {
+      options.sort = 'name';
+    }
+  }
+
+  console.log('Opciones:', options);
+  var page = 1;
+  console.log('Query-string: ', req.query);
+
+  // res.redirect('/anuncios/'+page);
+  Anuncio.list(function (err, rows) {
+    if (err) {
+      console.log(err);
+
+      // Devolver el json con el error
+      res.json({ result: false, err: err });
+      console.log('Devolviendo error');
+      return;
     }
 
-    // Filtrado difuso por nombre
-    if (req.query.name) {
-    		console.log('Nombre: ',req.query.name);
-        options.name = new RegExp('^' + req.query.name, 'i');
-    }
+    // Devolver el json con la lista de anuncios
+    res.json({ result: true, rows: rows, options: req.query });
+    console.log('Devolviendo lista de anuncios');
 
-    // req.query.pricemin
-    // req.query.pricemax
-    // 	pasamos queryParam.price como objeto {pricemin pricemax}
+    // return;
+  },
 
-    // Ordenacion por (precio/nombre)
-    if (req.query.sort) {
-        if (req.query.sort === 'price') {
-            options.sort = 'price';
-        } else if (req.query.sort === 'name') {
-            options.sort = 'name';
-        }
-    }
-    console.log('Opciones:', options);
-    var page = 1;
-    console.log('Query-string: ',req.query);
-    // res.redirect('/anuncios/'+page);
-    Anuncio.list(function(err, rows) {
-            if (err) {
-                console.log(err);
-
-                // Devolver el json con el error
-                res.json({ result: false, err: err });
-                console.log("Devolviendo error");
-                return;
-            }
-
-            // Devolver el json con la lista de anuncios
-            res.json({ result: true, rows: rows, options: req.query });
-            console.log("Devolviendo lista de anuncios");
-            // return;
-        },
-        options,
-        1)
+  options,
+  1);
 });
-
 
 // router.get('/:page', function (req, res) {
 // 	console.log(req.query);
@@ -168,6 +170,7 @@ router.get('/detail/:anuncio', function (req, res) {
 
     // return;
   },
+
   req.params.anuncio
   );
 });

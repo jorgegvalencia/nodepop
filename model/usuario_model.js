@@ -8,7 +8,6 @@ var usuarioSchema = mongoose.Schema({
   nombre: {
     type: String,
     trim: true,
-    index: true,
     unique: true,
     sparse: true,
     required: true
@@ -16,6 +15,7 @@ var usuarioSchema = mongoose.Schema({
   email: {
     type: String,
     trim: true,
+    unique: true,
     sparse: true,
     required: true
   },
