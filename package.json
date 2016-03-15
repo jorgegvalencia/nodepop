@@ -27,7 +27,6 @@
     "serve-favicon": "~2.3.0"
   },
   "description": "API para dar servicio a una aplicación de compra/venta de artículos de segunda mano.",
-  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jorgegvalencia/nodepop.git"

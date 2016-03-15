@@ -49,13 +49,12 @@ anuncioSchema.statics.list = function (cb, queryOptions, pag) {
           filters.nombre = { $regex: queryOptions.name };
       }
   }
-
-
   console.log('Filters: ', filters);
 
   // Paginacion
   // query.skip(5*(pag-1));
   // query.limit(5);
+  
   // Ordenar la query por nombre|precio
   var query = Anuncio.find(filters);
   if (queryOptions && queryOptions.sort) {
