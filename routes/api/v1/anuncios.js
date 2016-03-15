@@ -59,6 +59,15 @@ router.get('/', function (req, res, next) {
     options.name = new RegExp('^' + req.query.name, 'i');
   }
 
+  // Filtrado por rango de precios
+  if (req.query.pricerange && req.query.pricerange.match('^(\\d+)-(\\d+)$')){
+    options.range = true;
+    var range = req.query.pricerange.split("-");
+    options.pricemin = parseInt(range[0]);
+    console.log('min', options.pricemin);
+    options.pricemax = parseInt(range[1]);
+    console.log('max', options.pricemax);
+  }
   // req.query.pricemin
   // req.query.pricemax
   // 	pasamos queryParam.price como objeto {pricemin pricemax}

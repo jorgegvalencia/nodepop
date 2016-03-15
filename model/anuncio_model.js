@@ -40,11 +40,10 @@ anuncioSchema.statics.list = function (cb, queryOptions, pag) {
           filters.tag = { $in: tags };
       } else if (typeof queryOptions.sale === Boolean) {
           // filtrar por sale(true)|search(false)
-          console.log('Venta:', queryOptions.sale);
           filters.venta = queryOptions.sale;
-      } else if (queryOptions.price) {
+      } else if (queryOptions.range) {
           // filtrar por precio gte y lte
-          filters.age = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
+          filters.precio = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
       } else if (queryOptions.name) {
           // filtrar por nombre
           filters.nombre = { $regex: queryOptions.name };
