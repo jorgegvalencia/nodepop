@@ -6,38 +6,54 @@ var conn = require('../lib/mongooseManager');
 var anunciosCollection = 'anuncios';
 
 var anuncioSchema = mongoose.Schema({
-    nombre: String,
-    venta: Boolean,
-    precio: Number,
-    foto: String,
-    tags: [String]
+    nombre:{
+        type: String,
+        required: true
+    },
+    venta: {
+        type: Boolean,
+        required: true
+    },
+    precio: {
+        type: Number,
+        required: true
+    },
+    foto: {
+        type: String
+    },
+    tags: {
+        type: [String]
+    }
 });
 
 // Devolver la lista de anuncios
 // validar campos antes de pasarselo
 anuncioSchema.statics.list = function(cb, queryOptions, pag) {
-    var query = Anuncio.find({});
     var filters = {};
     if (queryOptions) {
+        console.log('queryOptions: ',queryOptions);
         // Parsear y establecer los parametros de la query
         if (queryOptions.tags) {
             // filtrar por tags
             filters.tag = { $in: tags };
-        } else if (queryOptions.type !== null) {
+        } else if (typeof queryOptions.sale !== undefined) {
             // filtrar por sale(true)|search(false)
-            filters.type = { type: queryOptions.type }
+            console.log('Venta:', queryOptions.sale);
+            filters.venta = queryOptions.sale;
         } else if (queryOptions.price) {
             // filtrar por precio gte y lte
             filters.age = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax }
         } else if (queryOptions.name) {
             // filtrar por nombre
-            filters.name = { $regex: queryOptions.name }
+            filters.nombre = { $regex: queryOptions.name }
         }
     }
+    console.log('Filters: ', filters);
     // Paginacion
     // query.skip(5*(pag-1));
     // query.limit(5);
     // Ordenar la query por nombre|precio
+    var query = Anuncio.find(filters);
     if (queryOptions && queryOptions.sort) {
         query.sort(queryParam.sort);
     }
@@ -51,7 +67,7 @@ anuncioSchema.statics.list = function(cb, queryOptions, pag) {
 };
 
 anuncioSchema.statics.findAd = function(cb, id) {
-    var query = Anuncio.find({ id: id });
+    var query = Anuncio.find({ _id: id });
     return query.exec(function(err, rows) {
         if (err) {
             return cb(err);

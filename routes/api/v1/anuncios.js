@@ -39,34 +39,86 @@ var Anuncio = mongoose.model('anuncios');
  *      }
  */
 
-router.get('/:page', function (req, res) {
-  // Parsear y validar query params
-  // req.query.tags
-  // req.query.type
-  // req.query.price
-  // req.query.name
-  // req.query.sort
-  var queryParams;
-  Anuncio.list(function (err, rows) {
-    if (err) {
-      console.log(err);
-
-      // Devolver el json con el error
-      res.json({ result: false, err: err });
-      console.log("Devolviendo error");
-      return;
+router.get('/', function(req, res, next) {
+    console.log('Query-string: ',req.query);
+    // Parsear y validar query params
+    // var tags = req.query.tags.split() || '';
+    var options = {};
+    // Tipo de busqueda
+    if (req.query.sale) {
+        console.log('Venta: ',req.query.sale);
+        if (req.query.sale == "true") {
+            options.sale = true;
+        } else if (req.query.sale == "false") {
+            options.sale = false;
+        }
     }
 
-    // Devolver el json con la lista de anuncios
-    res.json({ result: true, rows: rows });
-    console.log("Devolviendo lista de anuncios");
-    // return;
-  },
+    // Filtrado difuso por nombre
+    if (req.query.name) {
+    		console.log('Nombre: ',req.query.name);
+        options.name = new RegExp('^' + req.query.name, 'i');
+    }
 
-  queryParams,
-  req.params.page
-);
+    // req.query.pricemin
+    // req.query.pricemax
+    // 	pasamos queryParam.price como objeto {pricemin pricemax}
+
+    // Ordenacion por (precio/nombre)
+    if (req.query.sort) {
+        if (req.query.sort === 'price') {
+            options.sort = 'price';
+        } else if (req.query.sort === 'name') {
+            options.sort = 'name';
+        }
+    }
+    console.log('Opciones:', options);
+    var page = 1;
+    console.log('Query-string: ',req.query);
+    // res.redirect('/anuncios/'+page);
+    Anuncio.list(function(err, rows) {
+            if (err) {
+                console.log(err);
+
+                // Devolver el json con el error
+                res.json({ result: false, err: err });
+                console.log("Devolviendo error");
+                return;
+            }
+
+            // Devolver el json con la lista de anuncios
+            res.json({ result: true, rows: rows, options: req.query });
+            console.log("Devolviendo lista de anuncios");
+            // return;
+        },
+        options,
+        1)
 });
+
+
+// router.get('/:page', function (req, res) {
+// 	console.log(req.query);
+// 	Anuncio.list(function (err, rows) {
+//     if (err) {
+//       console.log(err);
+
+//       // Devolver el json con el error
+//       res.json({ result: false, err: err });
+//       console.log("Devolviendo error");
+//       return;
+//     }
+
+//     // Devolver el json con la lista de anuncios
+//     res.json({ result: true, rows: rows, options: req.query });
+//     console.log("Devolviendo lista de anuncios");
+//     // return;
+//   },
+
+//   req.queryOptions,
+//   req.params.page
+// );
+
+//})
 
 /**
  *  @api {get} /anuncios/detail/:anuncio GetAd
@@ -111,7 +163,7 @@ router.get('/detail/:anuncio', function (req, res) {
       return;
     }
 
-    // Devolver el json con la lista de anuncios
+    // Devolver el json con el anuncio
     res.json({ result: true, rows: rows });
 
     // return;
@@ -147,11 +199,12 @@ router.get('/detail/:anuncio', function (req, res) {
  *  @apiErrorExample Error-Response:
  *      HTTP/1.1 404 Not Found
  *      {
- *        "error": "WrongParams"
+ *				"result": false,
+ *        "err": "WrongParams"
  *      }
  */
 
-router.post('/', function () {
+router.post('/', function (req, res) {
   var anuncio = new Anuncio(req.body);
   anuncio.save(function (err, created) {
     if (err) {
