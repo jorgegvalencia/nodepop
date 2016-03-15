@@ -1,20 +1,33 @@
 'use strict';
 
-let conn = require('../lib/mongooseManager');
-let mongoose = require('mongoose');
-let usersCollection = 'usuarios';
+var conn = require('../lib/mongooseManager');
+var mongoose = require('mongoose');
+var usersCollection = 'usuarios';
 
-let usuarioSchema = mongoose.Schema({
-  nombre: String,
-  email: String,
-  password: String
+var usuarioSchema = mongoose.Schema({
+  nombre: {
+    type: String,
+    trim: true,
+    index: true,
+    unique: true,
+    sparse: true,
+    required: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    sparse: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
-
-let Usuario = mongoose(usersCollection, usuarioSchema);
 
 // Devolver la lista de usuarios
 usuarioSchema.statics.list = function (cb) {
-  let query = Usuario.find();
+  var query = Usuario.find();
   return query.exec(function (err, rows) {
     if (err) {
       return cb(err);
@@ -23,3 +36,5 @@ usuarioSchema.statics.list = function (cb) {
     return cb(null, rows);
   });
 };
+
+var Usuario = mongoose.model(usersCollection, usuarioSchema);
