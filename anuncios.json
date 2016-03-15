@@ -1,0 +1,74 @@
+{
+    "anuncios": [
+    {
+        "nombre": "Bicicleta",
+        "venta": true,
+        "precio": 230.15,
+        "foto": "bici.jpg",
+        "tags": ["lifestyle", "motor"]
+    }, 
+    {
+        "nombre": "iPhone 4",
+        "venta": false,
+        "precio": 9000.00,
+        "foto": "iphone.jpg",
+        "tags": ["lifestyle", "mobile"]
+    },
+    {
+        "nombre": "Martillo",
+        "venta": true,
+        "precio": 7.00,
+        "foto": "martillo.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Pico",
+        "venta": false,
+        "precio": 40.00,
+        "foto": "pico.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Pala",
+        "venta": true,
+        "precio": 60.00,
+        "foto": "pala.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Destornillador",
+        "venta": false,
+        "precio": 12.00,
+        "foto": "destornillador.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Taladradora",
+        "venta": true,
+        "precio": 99.00,
+        "foto": "taladradora.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Cinta de carrocero",
+        "venta": false,
+        "precio": 4.00,
+        "foto": "cinta_carrocero.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Cinta americana",
+        "venta": true,
+        "precio": 7.40,
+        "foto": "cinta_americana.jpg",
+        "tags": ["lifestyle", "tool"]
+    },
+    {
+        "nombre": "Mordaza",
+        "venta": false,
+        "precio": 7.40,
+        "foto": "mordaza.jpg",
+        "tags": ["lifestyle", "tool"]
+    }
+    ]
+}
