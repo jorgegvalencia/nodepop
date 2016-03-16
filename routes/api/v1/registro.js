@@ -3,7 +3,8 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var aes256 = require('aes256');
+// var aes256 = require('aes256');
+var crypto = require("crypto");
 
 var User = mongoose.model('usuarios');
 
@@ -14,7 +15,7 @@ router.post('/', function (req, res) {
   var userdata = {
     nombre: req.body.nombre,
     email: req.body.email,
-    password: aes256.encrypt(key, req.body.password)
+    password: crypto.createHmac('sha256', key).update(req.body.password).digest('hex')
   };
   var usuario = new User(userdata);
   usuario.save(function (err, created) {
@@ -28,3 +29,4 @@ router.post('/', function (req, res) {
 });
 
 module.exports = router;
+

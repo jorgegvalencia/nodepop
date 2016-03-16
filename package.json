@@ -12,7 +12,6 @@
     "jscs": "jscs --fix ./routes  ./model ./lib"
   },
   "dependencies": {
-    "aes256": "^1.0.2",
     "async": "^1.5.2",
     "basic-auth": "^1.0.3",
     "body-parser": "~1.13.2",
