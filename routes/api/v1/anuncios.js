@@ -40,7 +40,7 @@ var Anuncio = mongoose.model('anuncios');
  *      }
  */
 
-router.get('/', function (req, res, next) {
+router.get('/', auth(), function (req, res, next) {
   // Parsear y validar query params
   // var tags = req.query.tags.split() || '';
   var options = {};
