@@ -23,6 +23,7 @@ router.get('/', function (req, res) {
     for (var i = 0; i < rows.length; i++) {
       tags = mergeArrays(rows[i].tags, tags);
     }
+
     // Devolver el json con el anuncio
     res.json({ result: true, tags: { tags } });
   });
@@ -30,7 +31,8 @@ router.get('/', function (req, res) {
 
 function mergeArrays(array1, array2) {
   var aux = array1.concat(array2);
-  var result = aux.filter(function (item, pos) {return aux.indexOf(item) == pos});
+  var result = aux.filter(function (item, pos) {return aux.indexOf(item) == pos;});
+
   return result;
 }
 

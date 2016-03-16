@@ -51,6 +51,7 @@ router.get('/', function (req, res, next) {
     } else if (req.query.sale == 'false') {
       options.sale = false;
     }
+
     console.log(typeof options.sale);
   }
 
@@ -61,9 +62,9 @@ router.get('/', function (req, res, next) {
   }
 
   // Filtrado por rango de precios
-  if (req.query.pricerange && req.query.pricerange.match('^(\\d+)-(\\d+)$')){
+  if (req.query.pricerange && req.query.pricerange.match('^(\\d+)-(\\d+)$')) {
     options.range = true;
-    var range = req.query.pricerange.split("-");
+    var range = req.query.pricerange.split('-');
     options.pricemin = parseInt(range[0]);
     console.log('min', options.pricemin);
     options.pricemax = parseInt(range[1]);
@@ -87,10 +88,11 @@ router.get('/', function (req, res, next) {
   }
 
   // Paginacion
-  if (req.query.limit && req.query.limit.match('\\d+')){
+  if (req.query.limit && req.query.limit.match('\\d+')) {
     options.limit = parseInt(req.query.limit);
   }
-  if (req.query.offset && req.query.offset.match('\\d+')){
+
+  if (req.query.offset && req.query.offset.match('\\d+')) {
     options.offset = parseInt(req.query.offset);
   }
 
