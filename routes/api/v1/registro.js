@@ -12,7 +12,7 @@ var key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 router.post('/', function (req, res) {
   // validacion de campos del registro
   var userdata = {
-    nombre: req.body.username,
+    nombre: req.body.nombre,
     email: req.body.email,
     password: aes256.encrypt(key, req.body.password)
   };
