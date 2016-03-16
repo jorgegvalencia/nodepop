@@ -51,6 +51,7 @@ router.get('/', function (req, res, next) {
     } else if (req.query.sale == 'false') {
       options.sale = false;
     }
+    console.log(typeof options.sale);
   }
 
   // Filtrado difuso por nombre
@@ -67,10 +68,9 @@ router.get('/', function (req, res, next) {
     console.log('min', options.pricemin);
     options.pricemax = parseInt(range[1]);
     console.log('max', options.pricemax);
+  } else {
+    options.range = false;
   }
-  // req.query.pricemin
-  // req.query.pricemax
-  // 	pasamos queryParam.price como objeto {pricemin pricemax}
 
   // Ordenacion por (precio/nombre)
   if (req.query.sort) {
@@ -79,6 +79,11 @@ router.get('/', function (req, res, next) {
     } else if (req.query.sort === 'name') {
       options.sort = 'name';
     }
+  }
+
+  // Filtro por tags
+  if (req.query.tag) {
+    options.tag = req.query.tag;
   }
 
   console.log('Opciones:', options);
@@ -96,7 +101,7 @@ router.get('/', function (req, res, next) {
       return;
     }
 
-    // Devolver el json con la lista de anuncios
+    // Devolver el json con la /anuncios/lista de anuncios
     res.json({ result: true, rows: rows, options: req.query });
     console.log('Devolviendo lista de anuncios');
 
