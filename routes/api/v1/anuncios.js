@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var auth = require('../../../lib/auth');
 
 var Anuncio = mongoose.model('anuncios');
 
@@ -62,14 +63,23 @@ router.get('/', function (req, res, next) {
   }
 
   // Filtrado por rango de precios
-  if (req.query.pricerange && req.query.pricerange.match('^(\\d+)-(\\d+)$')) {
-    options.range = true;
-    var range = req.query.pricerange.split('-');
-    options.pricemin = parseInt(range[0]);
-    console.log('min', options.pricemin);
-    options.pricemax = parseInt(range[1]);
-    console.log('max', options.pricemax);
-  } else {
+  if (req.query.price){
+    if(req.query.price.match('^\\d*-\\d*$')) {
+      console.log('paso, ',req.query.price);
+      options.range = true;
+      var range = req.query.price.split('-');
+      if(range[0] !== ''){
+        options.pricemin = parseInt(range[0]);
+      }
+      if(range[1] !== ''){
+        options.pricemax = parseInt(range[1]);
+      }
+    }
+    else if(req.query.price.match('^\\d+$')){
+      options.price = parseInt(req.query.price);
+    }
+  } 
+  else {
     options.range = false;
   }
 

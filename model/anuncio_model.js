@@ -31,7 +31,6 @@ var anuncioSchema = mongoose.Schema({
 // validar campos antes de pasarselo
 anuncioSchema.statics.list = function (cb, queryOptions) {
   var filters = {};
-  var query = Anuncio.find(filters);
   if (queryOptions) {
     console.log('queryOptions: ', queryOptions);
 
@@ -44,30 +43,36 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
       filters.venta = queryOptions.sale;
     }
 
-    if (typeof queryOptions.sale === 'boolean') { // filtrar por precio gte y lte
-      if (queryOptions.sale) {
+    if (queryOptions.range && typeof queryOptions.range === 'boolean') { // filtrar por precio gte y lte
+      if (queryOptions.pricemin && queryOptions.pricemax ) {
         filters.precio = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
-      } else {
-        return cb('The pricerange parameter only admits a range of numbers');
       }
+      else if ( queryOptions.pricemin ){
+        filters.precio = { $gt: queryOptions.pricemin }
+      }
+      else if ( queryOptions.pricemax ){
+        filters.precio = { $lt: queryOptions.pricemax }
+      }
+    }
+
+    if (queryOptions.price && typeof queryOptions.price === 'number') {
+        filters.precio = queryOptions.price;
     }
 
     if (queryOptions.name) { // filtrar por nombre
       filters.nombre = { $regex: queryOptions.name };
     }
+  }
 
-    // Paginacion
-    if (typeof queryOptions.offset === 'number') {
-      console.log(queryOptions.offset);
-      console.log('Setting offset to', queryOptions.offset);
-      query.skip(queryOptions.offset);
-    }
+  var query = Anuncio.find(filters);
 
-    if (typeof queryOptions.limit === 'number') {
-      console.log(queryOptions.limit);
-      console.log('Setting limit to', queryOptions.limit);
-      query.limit(queryOptions.limit);
-    }
+
+  // Paginacion
+  if (typeof queryOptions.offset === 'number') {
+    query.skip(queryOptions.offset);
+  }
+  if (typeof queryOptions.limit === 'number') {
+    query.limit(queryOptions.limit);
   }
 
   // Ordenar la query por nombre/precio
@@ -79,7 +84,6 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
       query.sort('nombre');
     }
   }
-
   console.log('Filters: ', filters);
   return query.exec(function (err, rows) {
     if (err) {
