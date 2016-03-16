@@ -29,8 +29,9 @@ var anuncioSchema = mongoose.Schema({
 
 // Devolver la lista de anuncios
 // validar campos antes de pasarselo
-anuncioSchema.statics.list = function(cb, queryOptions, pag) {
+anuncioSchema.statics.list = function(cb, queryOptions) {
     var filters = {};
+    var query = Anuncio.find(filters);
     if (queryOptions) {
         console.log('queryOptions: ', queryOptions);
         // Parsear y establecer los parametros de la query
@@ -50,15 +51,20 @@ anuncioSchema.statics.list = function(cb, queryOptions, pag) {
         if (queryOptions.name) { // filtrar por nombre
             filters.nombre = { $regex: queryOptions.name };
         }
+        // Paginacion
+        if (typeof queryOptions.offset === "number"){
+            console.log(queryOptions.offset);
+            console.log('Setting offset to', queryOptions.offset);
+            query.skip(queryOptions.offset);
+        }
+        if (typeof queryOptions.limit === "number"){
+            console.log(queryOptions.limit);
+            console.log('Setting limit to', queryOptions.limit);
+            query.limit(queryOptions.limit);
+        }
     }
-    console.log('Filters: ', filters);
 
-    // Paginacion
-    // query.skip(5*(pag-1));
-    // query.limit(5);
-
-    // Ordenar la query por nombre|precio
-    var query = Anuncio.find(filters);
+    // Ordenar la query por nombre/precio
     if (queryOptions && queryOptions.sort) {
         console.log('Sorting...');
         if (queryOptions.sort === 'price')
@@ -68,6 +74,7 @@ anuncioSchema.statics.list = function(cb, queryOptions, pag) {
         }
     }
 
+    console.log('Filters: ', filters);
     return query.exec(function(err, rows) {
         if (err) {
             return cb(err);

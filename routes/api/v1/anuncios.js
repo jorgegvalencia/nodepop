@@ -86,6 +86,14 @@ router.get('/', function (req, res, next) {
     options.tag = req.query.tag;
   }
 
+  // Paginacion
+  if (req.query.limit && req.query.limit.match('\\d+')){
+    options.limit = parseInt(req.query.limit);
+  }
+  if (req.query.offset && req.query.offset.match('\\d+')){
+    options.offset = parseInt(req.query.offset);
+  }
+
   console.log('Opciones:', options);
   var page = 1;
   console.log('Query-string: ', req.query);
@@ -108,8 +116,8 @@ router.get('/', function (req, res, next) {
     // return;
   },
 
-  options,
-  1);
+  options
+  );
 });
 
 // router.get('/:page', function (req, res) {
