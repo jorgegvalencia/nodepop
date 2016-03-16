@@ -23,20 +23,15 @@ router.get('/', function (req, res) {
     for (var i = 0; i < rows.length; i++) {
       tags = mergeArrays(rows[i].tags, tags);
     }
-
     // Devolver el json con el anuncio
     res.json({ result: true, tags: { tags } });
   });
 });
 
 function mergeArrays(array1, array2) {
-  var returnArray = array1.slice();
-  var auxArray = array2.slice();
-  returnArray.concat(auxArray.filter(function (item) {
-    return returnArray.indexOf(item) < 0; // el item no existe en el primer array
-  }));
-
-  return returnArray;
+  var aux = array1.concat(array2);
+  var result = aux.filter(function (item, pos) {return aux.indexOf(item) == pos});
+  return result;
 }
 
 module.exports = router;
