@@ -4,7 +4,7 @@
   "private": true,
   "apidoc": {
     "title": "Nodepop API documentation",
-    "url": "localhost:3000/nodepop/api/v{version}"
+    "url": "localhost:3000/api/v1"
   },
   "scripts": {
     "start": "node ./bin/www",

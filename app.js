@@ -10,6 +10,7 @@ require('./model/usuario_model');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var currentVersion = 'v1';
 
 var app = express();
 
@@ -25,11 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/anuncios', require('./routes/api/v1/anuncios'));
-app.use('/tags', require('./routes/api/v1/tags'));
-app.use('/register', require('./routes/api/v1/registro'));
+//app.use('/', routes);
+//app.use('/users', users);
+app.use('/api/'+currentVersion+'/anuncios', require('./routes/api/'+currentVersion+'/anuncios'));
+app.use('/api/'+currentVersion+'/tags', require('./routes/api/'+currentVersion+'/tags'));
+app.use('/api/'+currentVersion+'/signin', require('./routes/api/'+currentVersion+'/registro'));
 app.use('/images/anuncios/',express.static(__dirname + '/public/images'));
 app.use('/api/documentation/',express.static(__dirname + '/public/apidoc/'));
 
