@@ -3,4 +3,5 @@
 	"validateLineBreaks": null,
 	"excludeFiles": ["bin/", "public/", "views/", "node_modules/", "apidoc/"],
 	"requireTrailingComma": false,
+	"maximumLineLength": 180
 }
