@@ -34,19 +34,18 @@ var key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
  *  @apiSuccess {Boolean} result=true Variable to indicate success.
  *  @apiUse User
  *
-   @apiSuccessExample Success-Response:
-     HTTP/1.1 201 Created
-     {
-      "result": true,
-      "user": {
-        "_v": 0,
-        "nombre": "newuser",
-        "email": "email@example.com",
-        "password": "73bb31e779581af66b21a08a58c4549aa58fe16b131a554723c9155681601e9b",
-        "_id": "56ea964d8e05fffc13384d50"
-      }
-    }
-
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 201 Created
+ * {
+ *  "result": true,
+ *  "user": {
+ *    "_v": 0,
+ *    "nombre": "newuser",
+ *    "email": "email@example.com",
+ *    "password": "73bb31e779581af66b21a08a58c4549aa58fe16b131a554723c9155681601e9b",
+ *    "_id": "56ea964d8e05fffc13384d50"
+ *  }
+ *
  */
 router.post('/', function (req, res) {
   // validacion de campos del registro
@@ -56,18 +55,27 @@ router.post('/', function (req, res) {
     password: crypto.createHmac('sha256', key).update(req.body.password).digest('hex')
   };
   if (!validateEmail(userdata.email)) {
-    res.json({ result: false, err: 'Invalid email address' });
+    res.json({
+      result: false,
+      err: 'Invalid email address'
+    });
     return;
   }
 
   var usuario = new User(userdata);
   usuario.save(function (err, created) {
     if (err) {
-      res.json({ result: false, err: err });
+      res.json({
+        result: false,
+        err: err
+      });
       return;
     }
 
-    res.status(201).json({ result: true, user: created });
+    res.status(201).json({
+      result: true,
+      user: created
+    });
   });
 });
 
@@ -78,4 +86,3 @@ function validateEmail(email) {
 }
 
 module.exports = router;
-

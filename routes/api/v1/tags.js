@@ -16,14 +16,14 @@ var Anuncio = mongoose.model('anuncios');
  *  @apiSuccess {Object} rows Object with the array of existent tags.
  *  @apiSuccess {String[]} .tags Array of existent tags.
  *
-   @apiSuccessExample Success-Response:
-     HTTP/1.1 200 OK
-     {
-       "result": true,
-       "rows": {
-         "tags": ["mobile", "lifestyle"]
-       }
-     }
+ *  @apiSuccessExample Success-Response:
+ *  HTTP/1.1 200 OK
+ *  {
+ *    "result": true,
+ *    "rows": {
+ *      "tags": ["mobile", "lifestyle"]
+ *    }
+ *  }
  */
 router.get('/', function (req, res) {
   Anuncio.listTags(function (err, rows) {

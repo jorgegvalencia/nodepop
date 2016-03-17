@@ -1,5 +1,16 @@
 'use strict';
 
+/** apiDoc definitions
+ *  @apiDefine Ad
+ *  @apiSuccess {String} ._id Id of the ad.
+ *  @apiSuccess {String} ._v Version of the ad.
+ *  @apiSuccess {String} .name Title of the ad.
+ *  @apiSuccess {String} .sale Type of the ad: sale or search.
+ *  @apiSuccess {Number} .price Price of the item.
+ *  @apiSuccess {String} .photo URL of the cover image.
+ *  @apiSuccess {String[]} ad.tags List of the tags related to the ad.
+ */
+
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
@@ -8,18 +19,7 @@ var auth = require('../../../lib/auth');
 var Anuncio = mongoose.model('anuncios');
 
 /**
-  @apiDefine Ad
-  @apiSuccess {String} ._id Id of the ad.
-  @apiSuccess {String} ._v Version of the ad.
-  @apiSuccess {String} .name Title of the ad.
-  @apiSuccess {String} .sale Type of the ad: sale or search.
-  @apiSuccess {Number} .price Price of the item.
-  @apiSuccess {String} .photo URL of the cover image.
-  @apiSuccess {String[]} ad.tags List of the tags related to the ad.
-*/
-
-/**
- *  @api {get} /anuncios/ Get a list of the current ads.
+ * @api {get} /anuncios/ Get a list of the current ads.
  *  @apiVersion 1.0.0
  *  @apiName GetAds
  *  @apiGroup Ads
@@ -37,29 +37,29 @@ var Anuncio = mongoose.model('anuncios');
  *  @apiSuccess {Object[]} rows Array with the ads objects.
  *  @apiUse Ad
  *
-   @apiSuccessExample Success-Response:
-       HTTP/1.1 200 OK
-       {
-         "result": true,
-         "rows": [{
-           "_id": "56ea993380429ac01b847f2a",
-           "_v": 0,
-           "name": "iPhone",
-           "sale": "true",
-           "price": 500,
-           "photo": "iphone.jpg",
-           "tags": ["mobile", "lifestyle"]
-         },{
-           "_id": "56ea993380429ac52b847f2a",
-           "_v": 0,
-           "name": "Biciteta",
-           "sale": "true",
-           "price": 170,
-           "photo": "biciteta.jpg",
-           "tags": ["mobile", "lifestyle"]
-         }],
-         "options":{}
-       }
+ *  @apiSuccessExample Success-Response:
+ *  HTTP/1.1 200 OK
+ *  {
+ *    "result": true,
+ *    "rows": [{
+ *      "_id": "56ea993380429ac01b847f2a",
+ *      "_v": 0,
+ *      "name": "iPhone",
+ *      "sale": "true",
+ *      "price": 500,
+ *      "photo": "iphone.jpg",
+ *      "tags": ["mobile", "lifestyle"]
+ *    },{
+ *      "_id": "56ea993380429ac52b847f2a",
+ *      "_v": 0,
+ *      "name": "Biciteta",
+ *      "sale": "true",
+ *      "price": 170,
+ *      "photo": "biciteta.jpg",
+ *      "tags": ["mobile", "lifestyle"]
+ *    }],
+ *    "options":{}
+ *  }
  */
 
 router.get('/', auth(), function (req, res, next) {
@@ -130,23 +130,30 @@ router.get('/', auth(), function (req, res, next) {
   console.log('Query-string: ', req.query);
 
   Anuncio.list(function (err, rows) {
-    if (err) {
-      console.log(err);
+      if (err) {
+        console.log(err);
 
-      // Devolver el json con el error
-      res.json({ result: false, err: err });
-      console.log('Devolviendo error');
-      return;
-    }
+        // Devolver el json con el error
+        res.json({
+          result: false,
+          err: err
+        });
+        console.log('Devolviendo error');
+        return;
+      }
 
-    // Devolver el json con la /anuncios/lista de anuncios
-    res.json({ result: true, options: req.query, rows: rows });
-    console.log('Devolviendo lista de anuncios');
+      // Devolver el json con la /anuncios/lista de anuncios
+      res.json({
+        result: true,
+        options: req.query,
+        rows: rows
+      });
+      console.log('Devolviendo lista de anuncios');
 
-    // return;
-  },
+      // return;
+    },
 
-  options
+    options
   );
 });
 
@@ -162,40 +169,45 @@ router.get('/', auth(), function (req, res, next) {
  *  @apiSuccess {Object} rows Object with the ad data.
  *  @apiUse Ad
  *
-   @apiSuccessExample Success-Response:
-       HTTP/1.1 200 OK
-       {
-         "result": true,
-         "rows": [{
-           "_id": "56ea993380429ac01b847f2a",
-           "_v": 0,
-           "name": "iPhone",
-           "sale": "true",
-           "price": 500,
-           "photo": "iphone.jpg",
-           "tags": ["mobile", "lifestyle"]
-         }]
-       }
-
+ *   @apiSuccessExample Success-Response:
+ *   HTTP/1.1 200 OK
+ *   {
+ *     "result": true,
+ *     "rows": [{
+ *       "_id": "56ea993380429ac01b847f2a",
+ *       "_v": 0,
+ *       "name": "iPhone",
+ *       "sale": "true",
+ *       "price": 500,
+ *       "photo": "iphone.jpg",
+ *       "tags": ["mobile", "lifestyle"]
+ *     }]
+ *   }
  */
 
 router.get('/detail/:anuncio', function (req, res) {
   Anuncio.findAd(function (err, rows) {
-    if (err) {
-      console.log(err);
+      if (err) {
+        console.log(err);
 
-      // Devolver el json con el error
-      res.json({ result: false, err: err });
-      return;
-    }
+        // Devolver el json con el error
+        res.json({
+          result: false,
+          err: err
+        });
+        return;
+      }
 
-    // Devolver el json con el anuncio
-    res.json({ result: true, rows: rows });
+      // Devolver el json con el anuncio
+      res.json({
+        result: true,
+        rows: rows
+      });
 
-    // return;
-  },
+      // return;
+    },
 
-  req.params.anuncio
+    req.params.anuncio
   );
 });
 
@@ -214,27 +226,33 @@ router.get('/detail/:anuncio', function (req, res) {
  *  @apiSuccess (201) {[String]} tags List of the tags related to the ad
  *
  *  @apiSuccessExample (201) Success-Response:
- *      HTTP/1.1 201 Created
- *      {
- *          "_id": "56ea993380429ac01b847f2a",
- *          "_v": 0,
- *          "name": "iPhone",
- *          "sale": "true",
- *          "price": 500,
- *          "photo": "iphone.jpg",
- *          "tags": ["mobile", "lifestyle"]
- *      }
+ *  HTTP/1.1 201 Created
+ *  {
+ *      "_id": "56ea993380429ac01b847f2a",
+ *      "_v": 0,
+ *      "name": "iPhone",
+ *      "sale": "true",
+ *      "price": 500,
+ *      "photo": "iphone.jpg",
+ *      "tags": ["mobile", "lifestyle"]
+ *  }
  */
 
 router.post('/', function (req, res) {
   var anuncio = new Anuncio(req.body);
   anuncio.save(function (err, created) {
     if (err) {
-      res.json({ result: false, err: err });
+      res.json({
+        result: false,
+        err: err
+      });
       return;
     }
 
-    res.status(201).json({ result: true, row: created });
+    res.status(201).json({
+      result: true,
+      row: created
+    });
   });
 });
 
