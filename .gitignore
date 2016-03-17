@@ -3,3 +3,6 @@ node_modules/
 
 # apidoc files
 apidoc/
+
+# images folder
+images/
