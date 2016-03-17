@@ -10,10 +10,47 @@ var User = mongoose.model('usuarios');
 
 var key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 
+/**
+@apiDefine User 
+ *  @apiSuccess {Object} user Object with the new user object.
+ *  @apiSuccess {Number} user._v Version number.
+ *  @apiSuccess {String} user.nombre Username of the new user.
+ *  @apiSuccess {String} user.email Email of the new user.
+ *  @apiSuccess {String} user.password Password hash of the new user.
+ *  @apiSuccess {String} user._id Id of the new user.
+*/
+
+/**
+ * @api {post} /signin Register a new user.
+ *  @apiVersion 1.0.0
+ *  @apiName SignIn
+ *  @apiGroup Sign In
+ *  
+ *  @apiParam  {String} name Username.
+ *  @apiParam  {String} email Email.
+ *  @apiParam  {String} password Password.
+ *
+ *  @apiSuccess {Boolean} result=true Variable to indicate success.
+ *  @apiUse User
+ *
+   @apiSuccessExample Success-Response:
+     HTTP/1.1 201 Created
+     {
+      "result": true,
+      "user": {
+        "_v": 0,
+        "nombre": "newuser",
+        "email": "email@example.com",
+        "password": "73bb31e779581af66b21a08a58c4549aa58fe16b131a554723c9155681601e9b",
+        "_id": "56ea964d8e05fffc13384d50"
+      }
+    }
+
+ */
 router.post('/', function (req, res) {
   // validacion de campos del registro
   var userdata = {
-    nombre: req.body.nombre,
+    nombre: req.body.name,
     email: req.body.email,
     password: crypto.createHmac('sha256', key).update(req.body.password).digest('hex')
   };
@@ -28,7 +65,7 @@ router.post('/', function (req, res) {
       return;
     }
 
-    res.json({ result: true, row: created });
+    res.status(201).json({ result: true, user: created });
   });
 });
 
