@@ -1,6 +1,7 @@
 'use strict';
 
-/** apiDoc definitions
+/** Definiciones de apiDoc
+ *
  *  @apiDefine Ad
  *  @apiSuccess {String} ._id Id of the ad.
  *  @apiSuccess {String} ._v Version of the ad.
@@ -11,12 +12,13 @@
  *  @apiSuccess {String[]} ad.tags List of the tags related to the ad.
  */
 
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var auth = require('../../../lib/auth');
+let express = require('express');
+let router = express.Router();
+let mongoose = require('mongoose');
+let auth = require('../../../lib/auth');
+let utils = require('../../../lib/utils');
 
-var Anuncio = mongoose.model('anuncios');
+let Anuncio = mongoose.model('anuncios');
 
 /**
  * @api {get} /anuncios/ Get a list of the current ads.
@@ -64,31 +66,28 @@ var Anuncio = mongoose.model('anuncios');
 
 router.get('/', auth(), function (req, res, next) {
   // Parsear y validar query params
-  var options = {};
+  let options = {};
+  let queryString = req.query;
 
   // Tipo de busqueda
-  if (req.query.sale) {
-    if (req.query.sale == 'true') {
+  if (queryString.sale) {
+    if (queryString.sale == 'true') {
       options.sale = true;
-    } else if (req.query.sale == 'false') {
+    } else if (queryString.sale == 'false') {
       options.sale = false;
     }
-
-    console.log(typeof options.sale);
   }
 
   // Filtrado difuso por nombre
-  if (req.query.name) {
-    console.log('Nombre: ', req.query.name);
-    options.name = new RegExp('^' + req.query.name, 'i');
+  if (queryString.name) {
+    options.name = new RegExp('^' + queryString.name, 'i');
   }
 
   // Filtrado por rango de precios
-  if (req.query.price) {
-    if (req.query.price.match('^\\d*-\\d*$')) {
-      console.log('paso, ', req.query.price);
+  if (queryString.price) {
+    if (queryString.price.match('^\\d*-\\d*$')) {
       options.range = true;
-      var range = req.query.price.split('-');
+      let range = queryString.price.split('-');
       if (range[0] !== '') {
         options.pricemin = parseInt(range[0]);
       }
@@ -96,65 +95,49 @@ router.get('/', auth(), function (req, res, next) {
       if (range[1] !== '') {
         options.pricemax = parseInt(range[1]);
       }
-    } else if (req.query.price.match('^\\d+$')) {
-      options.price = parseInt(req.query.price);
+    } else if (queryString.price.match('^\\d+$')) {
+      options.price = parseInt(queryString.price);
     }
   } else {
     options.range = false;
   }
 
   // Ordenacion por (precio/nombre)
-  if (req.query.sort) {
-    if (req.query.sort === 'price') {
+  if (queryString.sort) {
+    if (queryString.sort === 'price') {
       options.sort = 'price';
-    } else if (req.query.sort === 'name') {
+    } else if (queryString.sort === 'name') {
       options.sort = 'name';
     }
   }
 
   // Filtro por tags
-  if (req.query.tag) {
-    options.tag = req.query.tag;
+  if (queryString.tag) {
+    options.tag = queryString.tag;
   }
 
   // Paginacion
-  if (req.query.limit && req.query.limit.match('\\d+')) {
-    options.limit = parseInt(req.query.limit);
+  if (queryString.limit && queryString.limit.match('\\d+')) {
+    options.limit = parseInt(queryString.limit);
   }
 
-  if (req.query.offset && req.query.offset.match('\\d+')) {
-    options.offset = parseInt(req.query.offset);
+  if (queryString.offset && queryString.offset.match('\\d+')) {
+    options.offset = parseInt(queryString.offset);
   }
-
-  console.log('Opciones:', options);
-  console.log('Query-string: ', req.query);
 
   Anuncio.list(function (err, rows) {
-      if (err) {
-        console.log(err);
+    if (err) {
+      console.log(err);
 
-        // Devolver el json con el error
-        res.json({
-          result: false,
-          err: err
-        });
-        console.log('Devolviendo error');
-        return;
-      }
+      // Devolver el json con el error
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
+    }
 
-      // Devolver el json con la /anuncios/lista de anuncios
-      res.json({
-        result: true,
-        options: req.query,
-        rows: rows
-      });
-      console.log('Devolviendo lista de anuncios');
+    // Devolver el json con la /anuncios/lista de anuncios
+    res.json({ result: true, options: queryString, rows: rows });
+  },
 
-      // return;
-    },
-
-    options
-  );
+  options);
 });
 
 /**
@@ -187,28 +170,19 @@ router.get('/', auth(), function (req, res, next) {
 
 router.get('/detail/:anuncio', function (req, res) {
   Anuncio.findAd(function (err, rows) {
-      if (err) {
-        console.log(err);
+    if (err) {
+      console.log(err);
 
-        // Devolver el json con el error
-        res.json({
-          result: false,
-          err: err
-        });
-        return;
-      }
+      // Devolver el json con el error
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
+    }
 
-      // Devolver el json con el anuncio
-      res.json({
-        result: true,
-        rows: rows
-      });
+    // Devolver el json con el anuncio
+    res.json({ result: true, rows: rows });
+  },
 
-      // return;
-    },
-
-    req.params.anuncio
-  );
+  req.params.anuncio
+);
 });
 
 /**
@@ -245,20 +219,13 @@ router.get('/detail/:anuncio', function (req, res) {
  */
 
 router.post('/', function (req, res) {
-  var anuncio = new Anuncio(req.body);
+  let anuncio = new Anuncio(req.body);
   anuncio.save(function (err, created) {
     if (err) {
-      res.json({
-        result: false,
-        err: err
-      });
-      return;
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
     }
 
-    res.status(201).json({
-      result: true,
-      row: created
-    });
+    res.status(201).json({ result: true, row: created });
   });
 });
 

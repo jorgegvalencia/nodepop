@@ -1,10 +1,11 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
+let express = require('express');
+let router = express.Router();
+let mongoose = require('mongoose');
+let utils = require('../../../lib/utils');
 
-var Anuncio = mongoose.model('anuncios');
+let Anuncio = mongoose.model('anuncios');
 
 /**
  * @api {get} /tags Get the list of existent tags
@@ -31,38 +32,17 @@ router.get('/', function (req, res) {
       console.log(err);
 
       // Devolver el json con el error
-      res.json({
-        result: false,
-        err: err
-      });
-      console.log('Devolviendo error');
-      return;
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
     }
 
-    // rows es un array con objetos que contienen un array
-    console.log(rows);
-    var tags = [];
-    for (var i = 0; i < rows.length; i++) {
-      tags = mergeArrays(rows[i].tags, tags);
+    let tags = [];
+    for (let i = 0; i < rows.length; i++) {
+      tags = utils.mergeArrays(rows[i].tags, tags);
     }
 
     // Devolver el json con el anuncio
-    res.json({
-      result: true,
-      rows: {
-        tags
-      }
-    });
+    res.json({ result: true, rows: { tags }});
   });
 });
-
-function mergeArrays(array1, array2) {
-  var aux = array1.concat(array2);
-  var result = aux.filter(function (item, pos) {
-    return aux.indexOf(item) == pos;
-  });
-
-  return result;
-}
 
 module.exports = router;

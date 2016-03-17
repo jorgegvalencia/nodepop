@@ -1,15 +1,13 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
+let express = require('express');
+let router = express.Router();
+let mongoose = require('mongoose');
+let crypto = require('crypto');
+let utils = require('../../../lib/utils');
 
-// var aes256 = require('aes256');
-var crypto = require('crypto');
-
-var User = mongoose.model('usuarios');
-
-var key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
+let User = mongoose.model('usuarios');
+let key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 
 /**
 @apiDefine User
@@ -49,40 +47,23 @@ var key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
  */
 router.post('/', function (req, res) {
   // validacion de campos del registro
-  var userdata = {
+  let userdata = {
     nombre: req.body.name,
     email: req.body.email,
     password: crypto.createHmac('sha256', key).update(req.body.password).digest('hex')
   };
-  if (!validateEmail(userdata.email)) {
-    res.json({
-      result: false,
-      err: 'Invalid email address'
-    });
-    return;
+  if (!utils.validateEmail(userdata.email)) {
+    return res.status(400).json({ result: false, err: 'Invalid email address format.' });
   }
 
-  var usuario = new User(userdata);
+  let usuario = new User(userdata);
   usuario.save(function (err, created) {
     if (err) {
-      res.json({
-        result: false,
-        err: err
-      });
-      return;
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
     }
 
-    res.status(201).json({
-      result: true,
-      user: created
-    });
+    res.status(201).json({ result: true, user: created });
   });
 });
-
-// http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
-function validateEmail(email) {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-}
 
 module.exports = router;
