@@ -11,7 +11,7 @@ var Anuncio = mongoose.model('anuncios');
  *  @apiVersion 1.0.0
  *  @apiName GetTags
  *  @apiGroup Tags
- *  
+ *
  *  @apiSuccess {Boolean} result=true Variable to indicate success.
  *  @apiSuccess {Object} rows Object with the array of existent tags.
  *  @apiSuccess {String[]} .tags Array of existent tags.

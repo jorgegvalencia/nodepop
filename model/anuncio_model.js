@@ -44,19 +44,17 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
     }
 
     if (queryOptions.range && typeof queryOptions.range === 'boolean') { // filtrar por precio gte y lte
-      if (queryOptions.pricemin && queryOptions.pricemax ) {
+      if (queryOptions.pricemin && queryOptions.pricemax) {
         filters.precio = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
-      }
-      else if ( queryOptions.pricemin ){
-        filters.precio = { $gt: queryOptions.pricemin }
-      }
-      else if ( queryOptions.pricemax ){
-        filters.precio = { $lt: queryOptions.pricemax }
+      } else if (queryOptions.pricemin) {
+        filters.precio = { $gt: queryOptions.pricemin };
+      } else if (queryOptions.pricemax) {
+        filters.precio = { $lt: queryOptions.pricemax };
       }
     }
 
     if (queryOptions.price && typeof queryOptions.price === 'number') {
-        filters.precio = queryOptions.price;
+      filters.precio = queryOptions.price;
     }
 
     if (queryOptions.name) { // filtrar por nombre
@@ -66,11 +64,11 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
 
   var query = Anuncio.find(filters);
 
-
   // Paginacion
   if (typeof queryOptions.offset === 'number') {
     query.skip(queryOptions.offset);
   }
+
   if (typeof queryOptions.limit === 'number') {
     query.limit(queryOptions.limit);
   }
@@ -84,6 +82,7 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
       query.sort('nombre');
     }
   }
+
   console.log('Filters: ', filters);
   return query.exec(function (err, rows) {
     if (err) {

@@ -25,7 +25,7 @@ var Anuncio = mongoose.model('anuncios');
  *  @apiGroup Ads
  *
  *  @apiParam {String} [tag] Name of the tag to filter by.
- *  @apiParam {Boolean="true","false"} [sale] Filter ads by sales (true) or searchs (false).
+ *  @apiParam {Boolean="true","false"} [sale] Filter ads by sales (true) or searches (false).
  *  @apiParam {String="min-max","min-","-max","exact"} [price] Range of the price of the ads.
  *  @apiParam {String} [name] Name of the article in the ad.
  *  @apiParam {String="name","price"} [sort=name] Sort ads by name or price.
@@ -64,7 +64,6 @@ var Anuncio = mongoose.model('anuncios');
 
 router.get('/', auth(), function (req, res, next) {
   // Parsear y validar query params
-  // var tags = req.query.tags.split() || '';
   var options = {};
 
   // Tipo de busqueda
@@ -80,28 +79,27 @@ router.get('/', auth(), function (req, res, next) {
 
   // Filtrado difuso por nombre
   if (req.query.name) {
-    		console.log('Nombre: ', req.query.name);
+    console.log('Nombre: ', req.query.name);
     options.name = new RegExp('^' + req.query.name, 'i');
   }
 
   // Filtrado por rango de precios
-  if (req.query.price){
-    if(req.query.price.match('^\\d*-\\d*$')) {
-      console.log('paso, ',req.query.price);
+  if (req.query.price) {
+    if (req.query.price.match('^\\d*-\\d*$')) {
+      console.log('paso, ', req.query.price);
       options.range = true;
       var range = req.query.price.split('-');
-      if(range[0] !== ''){
+      if (range[0] !== '') {
         options.pricemin = parseInt(range[0]);
       }
-      if(range[1] !== ''){
+
+      if (range[1] !== '') {
         options.pricemax = parseInt(range[1]);
       }
-    }
-    else if(req.query.price.match('^\\d+$')){
+    } else if (req.query.price.match('^\\d+$')) {
       options.price = parseInt(req.query.price);
     }
-  } 
-  else {
+  } else {
     options.range = false;
   }
 
@@ -129,10 +127,8 @@ router.get('/', auth(), function (req, res, next) {
   }
 
   console.log('Opciones:', options);
-  var page = 1;
   console.log('Query-string: ', req.query);
 
-  // res.redirect('/anuncios/'+page);
   Anuncio.list(function (err, rows) {
     if (err) {
       console.log(err);
@@ -180,7 +176,7 @@ router.get('/', auth(), function (req, res, next) {
            "tags": ["mobile", "lifestyle"]
          }]
        }
-  
+
  */
 
 router.get('/detail/:anuncio', function (req, res) {
