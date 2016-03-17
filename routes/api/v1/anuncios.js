@@ -213,9 +213,15 @@ router.get('/detail/:anuncio', function (req, res) {
 
 /**
  *  @api {post} /anuncios/ Create a new ad.
- *  @apiVersion 0.1.0
+ *  @apiVersion 1.1.0
  *  @apiName createAd
  *  @apiGroup Ads
+ *
+ *  @apiParam {String} name Name of the Ad
+ *  @apiParam {String} sale Type of Ad: sale or search
+ *  @apiParam {Number} price Price of the item
+ *  @apiParam {String} photo URL of the cover image
+ *  @apiParam {[String]} tags List of the tags related to the ad
  *
  *  @apiSuccess (201) {String} _id Id of the Ad
  *  @apiSuccess (201) {Number} _v Version number.
