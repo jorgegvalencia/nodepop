@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "apidoc": "apidoc -i ./routes/ -o apidoc/",
+    "apidoc": "apidoc -i ./routes/ -o ./public/apidoc/",
     "jscs": "jscs --fix ./routes  ./model ./lib"
   },
   "dependencies": {

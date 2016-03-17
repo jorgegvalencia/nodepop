@@ -30,7 +30,8 @@ app.use('/users', users);
 app.use('/anuncios', require('./routes/api/v1/anuncios'));
 app.use('/tags', require('./routes/api/v1/tags'));
 app.use('/register', require('./routes/api/v1/registro'));
-app.use('/images', require('./routes/api/v1/staticfiles'));
+app.use('/images/anuncios/',express.static(__dirname + '/public/images'));
+app.use('/api/documentation/',express.static(__dirname + '/public/apidoc/'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
