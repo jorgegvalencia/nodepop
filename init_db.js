@@ -7,10 +7,10 @@ var conn = require('./lib/mongooseManager');
 
 require('./model/anuncio_model');
 
-var Anuncio = mongoose.model('anuncios');
+var Anuncio = mongoose.model('adverts');
 
 function setDatabaseAds() {
-	mongoose.connection.collections['anuncios'].drop( function(err) {
+	mongoose.connection.collections['adverts'].drop( function(err) {
     	console.log('collection dropped');
     	if (err) {
         	console.log(err);

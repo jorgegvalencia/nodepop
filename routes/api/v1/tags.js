@@ -5,7 +5,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let utils = require('../../../lib/utils');
 
-let Anuncio = mongoose.model('anuncios');
+let Anuncio = mongoose.model('adverts');
 
 /**
  * @api {get} /tags Get the list of existent tags

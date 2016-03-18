@@ -18,10 +18,10 @@ let mongoose = require('mongoose');
 let auth = require('../../../lib/auth');
 let utils = require('../../../lib/utils');
 
-let Anuncio = mongoose.model('anuncios');
+let Anuncio = mongoose.model('adverts');
 
 /**
- * @api {get} /anuncios/ Get a list of existing ads.
+ * @api {get} /adverts/ Get a list of existing ads.
  *  @apiVersion 1.0.0
  *  @apiName GetAds
  *  @apiGroup Ads
@@ -174,7 +174,7 @@ router.get('/', auth(), function (req, res, next) {
       return res.json({ result: false, error: utils.dbErrorResponse(err) });
     }
 
-    // Devolver el json con la /anuncios/lista de anuncios
+    // Devolver el json con la lista de anuncios
     res.json({ result: true, options: queryString, rows: rows });
   },
 
@@ -182,12 +182,12 @@ router.get('/', auth(), function (req, res, next) {
 });
 
 /**
- *  @api {get} /anuncios/detail/:anuncio Get advert details.
+ *  @api {get} /adverts/detail/:ad Get advert details.
  *  @apiVersion 1.0.0
  *  @apiName GetAd
  *  @apiGroup Ads
  *
- *  @apiParam {Number} anuncio Id of the requested ad.
+ *  @apiParam {Number} ad Id of the requested ad.
  *
  *  @apiSuccess {Boolean} result=true Variable to indicate success.
  *  @apiSuccess {Object} ad Object with the ad data.

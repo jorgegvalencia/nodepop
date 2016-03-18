@@ -1,9 +1,9 @@
 # Nodepop
-API para dar servicio a una aplicación de compra/venta de artículos de segunda mano.
+API to provide service to a multiplatform application for buying and selling second-hand articles.
 
 ## Dependencias
  - [nodejs](https://nodejs.org/en/)
- - *npm* Por defecto con node.
+ - *npm* By default with node.
  - *nodemon* `npm install nodemon -g`
  - *apidoc* `npm install apidoc -g`
  - *jscs* `npm install jscs -g`
@@ -11,17 +11,17 @@ API para dar servicio a una aplicación de compra/venta de artículos de segunda
 
 ## Setup
 
-Instalar las dependencias del package.json del proyecto ejecutando `npm install`.
+Install the dependencies within the package.json of the project typing in the terminal `npm install`.
 
-Para poner en servicio la API:
+Steps for running the API service:
 
-- Iniciar el servidor de MongoDB: `mongod --dbpath <directorio_de_datos> --directoryperdb`.
-		*Nota: El directorio de datos debe existir previamente.*
-- Crear una base de datos llamada **nodepopdb**, con dos colecciones: '*anuncios*' y '*usuarios*'.
-- [*Opcional*] Poblar la base de datos con el script *init_db.js*: `node init_db.js`.
-- Ejecutar `nodemon` desde el directorio raíz del proyecto.
-    *Alternativamente podemos ejecutar* `npm start`
+- Start the MongoDB server: `mongod --dbpath <data_directory> --directoryperdb`.
+		*Note: The data directory must exist previous executing the command.*
+- Create a database called **nodepopdb**, with two collections: '*anuncios*' y '*usuarios*'.
+- [*Optional*] Populate the database with the script *init_db.js*: `node init_db.js`.
+- Execute `nodemon` from the root directory of the project.
+    *Alternatively we can execute* `npm start`
 
-## Documentación de la API
+## API documentation
 
-La documentación de la API se encuentra disponible a través de la URI 'dir_servidor:puerto/api/documentation/'
+The API documentation is available at the URI 'dir_servidor:puerto/api/documentation/'

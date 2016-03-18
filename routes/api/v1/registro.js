@@ -6,7 +6,7 @@ let mongoose = require('mongoose');
 let crypto = require('crypto');
 let utils = require('../../../lib/utils');
 
-let User = mongoose.model('usuarios');
+let User = mongoose.model('users');
 let key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 
 /**

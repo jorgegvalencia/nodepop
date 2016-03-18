@@ -1,73 +1,73 @@
 {
     "anuncios": [
     {
-        "nombre": "Bicicleta",
-        "venta": true,
-        "precio": 230.15,
-        "foto": "bici.jpg",
+        "name": "Bicicleta",
+        "sale": true,
+        "price": 230.15,
+        "photo": "bici.jpg",
         "tags": ["lifestyle", "motor"]
     }, 
     {
-        "nombre": "iPhone 4",
-        "venta": false,
-        "precio": 9000.00,
-        "foto": "iphone.jpg",
+        "name": "iPhone 4",
+        "sale": false,
+        "price": 9000.00,
+        "photo": "iphone.jpg",
         "tags": ["lifestyle", "mobile"]
     },
     {
-        "nombre": "Martillo",
-        "venta": true,
-        "precio": 7.00,
-        "foto": "martillo.jpg",
+        "name": "Martillo",
+        "sale": true,
+        "price": 7.00,
+        "photo": "martillo.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Pico",
-        "venta": false,
-        "precio": 40.00,
-        "foto": "pico.jpg",
+        "name": "Pico",
+        "sale": false,
+        "price": 40.00,
+        "photo": "pico.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Pala",
-        "venta": true,
-        "precio": 60.00,
-        "foto": "pala.jpg",
+        "name": "Pala",
+        "sale": true,
+        "price": 60.00,
+        "photo": "pala.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Destornillador",
-        "venta": false,
-        "precio": 12.00,
-        "foto": "destornillador.jpg",
+        "name": "Destornillador",
+        "sale": false,
+        "price": 12.00,
+        "photo": "destornillador.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Taladradora",
-        "venta": true,
-        "precio": 99.00,
-        "foto": "taladradora.jpg",
+        "name": "Taladradora",
+        "sale": true,
+        "price": 99.00,
+        "photo": "taladradora.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Cinta de carrocero",
-        "venta": false,
-        "precio": 4.00,
-        "foto": "cinta_carrocero.jpg",
+        "name": "Cinta de carrocero",
+        "sale": false,
+        "price": 4.00,
+        "photo": "cinta_carrocero.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Cinta americana",
-        "venta": true,
-        "precio": 7.40,
-        "foto": "cinta_americana.jpg",
+        "name": "Cinta americana",
+        "sale": true,
+        "price": 7.40,
+        "photo": "cinta_americana.jpg",
         "tags": ["lifestyle", "tool"]
     },
     {
-        "nombre": "Mordaza",
-        "venta": false,
-        "precio": 7.40,
-        "foto": "mordaza.jpg",
+        "name": "Mordaza",
+        "sale": false,
+        "price": 7.40,
+        "photo": "mordaza.jpg",
         "tags": ["lifestyle", "tool"]
     }
     ]

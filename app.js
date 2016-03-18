@@ -30,10 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', routes);
 //app.use('/users', users);
-app.use('/api/'+currentVersion+'/anuncios', require('./routes/api/'+currentVersion+'/anuncios'));
+app.use('/api/'+currentVersion+'/adverts', require('./routes/api/'+currentVersion+'/anuncios'));
 app.use('/api/'+currentVersion+'/tags', require('./routes/api/'+currentVersion+'/tags'));
 app.use('/api/'+currentVersion+'/signin', require('./routes/api/'+currentVersion+'/registro'));
-app.use('/images/anuncios/',express.static(__dirname + '/public/images'));
+app.use('/images/adverts/',express.static(__dirname + '/public/images'));
 app.use('/api/documentation/',express.static(__dirname + '/public/apidoc/'));
 
 // catch 404 and forward to error handler

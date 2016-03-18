@@ -2,7 +2,7 @@
 
 var conn = require('../lib/mongooseManager');
 var mongoose = require('mongoose');
-var usersCollection = 'usuarios';
+var usersCollection = 'users';
 
 var usuarioSchema = mongoose.Schema({
   name: {
@@ -25,7 +25,7 @@ var usuarioSchema = mongoose.Schema({
   }
 });
 
-// Devolver la lista de usuarios
+// Devolver la lista de users
 usuarioSchema.statics.list = function (cb, filter) {
   var query = Usuario.find(filter);
   return query.exec(function (err, rows) {

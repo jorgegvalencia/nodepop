@@ -4,22 +4,22 @@ var mongoose = require('mongoose');
 
 // creamos la conexion con la base de datos
 var conn = require('../lib/mongooseManager');
-var anunciosCollection = 'anuncios';
+var advertsCollection = 'adverts';
 
 var anuncioSchema = mongoose.Schema({
-  nombre: {
+  name: {
     type: String,
     required: true
   },
-  venta: {
+  sale: {
     type: Boolean,
     required: true
   },
-  precio: {
+  price: {
     type: Number,
     required: true
   },
-  foto: {
+  photo: {
     type: String
   },
   tags: {
@@ -27,7 +27,7 @@ var anuncioSchema = mongoose.Schema({
   }
 });
 
-// Devolver la lista de anuncios
+// Devolver la lista de adverts
 // validar campos antes de pasarselo
 anuncioSchema.statics.list = function (cb, queryOptions) {
   var filters = {};
@@ -40,25 +40,25 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
     }
 
     if (typeof queryOptions.sale === 'boolean') { // filtrar por sale(true)|search(false)
-      filters.venta = queryOptions.sale;
+      filters.sale = queryOptions.sale;
     }
 
-    if (queryOptions.range && typeof queryOptions.range === 'boolean') { // filtrar por precio gte y lte
+    if (queryOptions.range && typeof queryOptions.range === 'boolean') { // filtrar por price gte y lte
       if (queryOptions.pricemin && queryOptions.pricemax) {
-        filters.precio = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
+        filters.price = { $gt: queryOptions.pricemin, $lt: queryOptions.pricemax };
       } else if (queryOptions.pricemin) {
-        filters.precio = { $gt: queryOptions.pricemin };
+        filters.price = { $gt: queryOptions.pricemin };
       } else if (queryOptions.pricemax) {
-        filters.precio = { $lt: queryOptions.pricemax };
+        filters.price = { $lt: queryOptions.pricemax };
       }
     }
 
     if (queryOptions.price && typeof queryOptions.price === 'number') {
-      filters.precio = queryOptions.price;
+      filters.price = queryOptions.price;
     }
 
-    if (queryOptions.name) { // filtrar por nombre
-      filters.nombre = { $regex: queryOptions.name };
+    if (queryOptions.name) { // filtrar por name
+      filters.name = { $regex: queryOptions.name };
     }
   }
 
@@ -73,13 +73,13 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
     query.limit(queryOptions.limit);
   }
 
-  // Ordenar la query por nombre/precio
+  // Ordenar la query por name/price
   if (queryOptions && queryOptions.sort) {
     console.log('Sorting...');
     if (queryOptions.sort === 'price')
-        query.sort('precio');
+        query.sort('price');
     else {
-      query.sort('nombre');
+      query.sort('name');
     }
   }
 
@@ -117,4 +117,4 @@ anuncioSchema.statics.listTags = function (cb) {
   });
 };
 
-var Anuncio = mongoose.model('anuncios', anuncioSchema);
+var Anuncio = mongoose.model('adverts', anuncioSchema);
