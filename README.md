@@ -17,8 +17,7 @@ Steps for running the API service:
 
 - Start the MongoDB server: `mongod --dbpath <data_directory> --directoryperdb`.
 		*Note: The data directory must exist previous executing the command.*
-- Create a database called **nodepopdb**, with two collections: '*anuncios*' y '*usuarios*'.
-- [*Optional*] Populate the database with the script *init_db.js*: `node init_db.js`.
+- Create a database called **nodepopdb**, with two collections: '*adverts*' & '*users*' with the script *init_db.js*: `node init_db.js`.
 - Execute `nodemon` from the root directory of the project.
     *Alternatively we can execute* `npm start`
 
