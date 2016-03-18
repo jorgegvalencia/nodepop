@@ -23,4 +23,4 @@ Steps for running the API service:
 
 ## API documentation
 
-The API documentation is available at the URI 'dir_servidor:puerto/api/documentation/'
+The API documentation is available at the URI 'server_dir:port/api/documentation/'. Also it can be generated with apidoc.
