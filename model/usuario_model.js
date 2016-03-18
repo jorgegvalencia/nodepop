@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var usersCollection = 'usuarios';
 
 var usuarioSchema = mongoose.Schema({
-  nombre: {
+  name: {
     type: String,
     trim: true,
     unique: true,

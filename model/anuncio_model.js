@@ -94,7 +94,7 @@ anuncioSchema.statics.list = function (cb, queryOptions) {
 };
 
 anuncioSchema.statics.findAd = function (cb, id) {
-  var query = Anuncio.find({ _id: id });
+  var query = Anuncio.findOne({ _id: id });
   return query.exec(function (err, rows) {
     if (err) {
       return cb(err);

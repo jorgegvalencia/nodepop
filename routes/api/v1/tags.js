@@ -41,7 +41,7 @@ router.get('/', function (req, res) {
     }
 
     // Devolver el json con el anuncio
-    res.json({ result: true, rows: { tags }});
+    res.json({ result: true, rows: { tags } });
   });
 });
 

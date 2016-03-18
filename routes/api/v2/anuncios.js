@@ -21,7 +21,7 @@ let utils = require('../../../lib/utils');
 let Anuncio = mongoose.model('anuncios');
 
 /**
- * @api {get} /anuncios/ Get a list of existing ads.
+ * @api {get} /anuncios/ Get a list of the current ads.
  *  @apiVersion 1.0.0
  *  @apiName GetAds
  *  @apiGroup Ads
@@ -182,7 +182,7 @@ router.get('/', auth(), function (req, res, next) {
 });
 
 /**
- *  @api {get} /anuncios/detail/:anuncio Get advert details.
+ *  @api {get} /anuncios/detail/:anuncio Get the ad details.
  *  @apiVersion 1.0.0
  *  @apiName GetAd
  *  @apiGroup Ads
@@ -242,6 +242,57 @@ router.get('/detail/:anuncio', function (req, res) {
 
   req.params.anuncio
 );
+});
+
+/**
+ *  @api {post} /anuncios/ Create a new ad.
+ *  @apiVersion 1.1.0
+ *  @apiName createAd
+ *  @apiGroup Ads
+ *
+ *  @apiParam {String} name Name of the Ad
+ *  @apiParam {String} sale Type of Ad: sale or search
+ *  @apiParam {Number} price Price of the item
+ *  @apiParam {String} photo URL of the cover image
+ *  @apiParam {[String]} tags List of the tags related to the ad
+ *
+ *  @apiSuccess (201) {String} _id Id of the Ad
+ *  @apiSuccess (201) {Number} _v Version number.
+ *  @apiSuccess (201) {String} name Name of the Ad
+ *  @apiSuccess (201) {String} sale Type of Ad: sale or search
+ *  @apiSuccess (201) {Number} price Price of the item
+ *  @apiSuccess (201) {String} photo URL of the cover image
+ *  @apiSuccess (201) {[String]} tags List of the tags related to the ad
+ *
+ *  @apiSuccessExample (201) Success-Response:
+ *  HTTP/1.1 201 Created
+ *  {
+ *      "_id": "56ea993380429ac01b847f2a",
+ *      "_v": 0,
+ *      "name": "iPhone",
+ *      "sale": "true",
+ *      "price": 500,
+ *      "photo": "iphone.jpg",
+ *      "tags": ["mobile", "lifestyle"]
+ *  }
+ *
+ *  @apiErrorExample {json} Error-Response:
+ *  HTTP/1.1 503 Service Unavailable
+ *  {
+ *    "result": false
+ *    "error": "Service currently unavailable."
+ *  }
+ */
+
+router.post('/', function (req, res) {
+  let anuncio = new Anuncio(req.body);
+  anuncio.save(function (err, created) {
+    if (err) {
+      return res.json({ result: false, error: utils.dbErrorResponse(err) });
+    }
+
+    res.status(201).json({ result: true, row: created });
+  });
 });
 
 module.exports = router;

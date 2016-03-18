@@ -13,7 +13,7 @@ let key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 @apiDefine User
  *  @apiSuccess {Object} user Object with the new user object.
  *  @apiSuccess {Number} user._v Version number.
- *  @apiSuccess {String} user.nombre Username of the new user.
+ *  @apiSuccess {String} user.name Username of the new user.
  *  @apiSuccess {String} user.email Email of the new user.
  *  @apiSuccess {String} user.password Password hash of the new user.
  *  @apiSuccess {String} user._id Id of the new user.
@@ -38,7 +38,7 @@ let key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
  *  "result": true,
  *  "user": {
  *    "_v": 0,
- *    "nombre": "newuser",
+ *    "name": "newuser",
  *    "email": "email@example.com",
  *    "password": "73bb31e779581af66b21a08a58c4549aa58fe16b131a554723c9155681601e9b",
  *    "_id": "56ea964d8e05fffc13384d50"
@@ -48,7 +48,7 @@ let key = 'cl4V3l4rgac0nNum3rOsyLetR4S';
 router.post('/', function (req, res) {
   // validacion de campos del registro
   let userdata = {
-    nombre: req.body.name,
+    name: req.body.name,
     email: req.body.email,
     password: crypto.createHmac('sha256', key).update(req.body.password).digest('hex')
   };
